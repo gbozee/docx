@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import * as sinon from "sinon";
+import { CoreProperties } from "./core-properties";
 
 import { Formatter } from "export/formatter";
 
@@ -170,4 +171,55 @@ describe("File", () => {
             expect(spy.called).to.equal(true);
         });
     });
+    describe("#coreProperties", () => {
+        const properties = {
+            title: "test document",
+            subject: "test subject",
+            creator: "me",
+            keywords: "test docx",
+            description: "testing document",
+            lastModifiedBy: "the author",
+            revision: "123",
+        };
+        it("should create the core properties in the constructor", () => {
+            const wrapper = new File(properties);
+            expectCoreProperties(wrapper.CoreProperties);
+        });
+        it("should create the core properties outside the constructor", () => {
+            const wrapper = new File();
+            wrapper.CoreProperties = new CoreProperties(properties);
+            expectCoreProperties(wrapper.CoreProperties);
+        });
+    });
 });
+
+// tslint:disable-next-line: typedef
+function expectCoreProperties(properties) {
+    const tree = new Formatter().format(properties);
+    expect(Object.keys(tree)).to.deep.equal(["cp:coreProperties"]);
+    expect(tree["cp:coreProperties"]).to.be.an.instanceof(Array);
+    const key = (obj: {}) => Object.keys(obj)[0];
+    const props = tree["cp:coreProperties"].map(key).sort();
+    expect(props).to.deep.equal([
+        "_attr",
+        "cp:keywords",
+        "cp:lastModifiedBy",
+        "cp:revision",
+        "dc:creator",
+        "dc:description",
+        "dc:subject",
+        "dc:title",
+        "dcterms:created",
+        "dcterms:modified",
+    ]);
+    // tslint:disable-next-line: no-any
+    expect(tree["cp:coreProperties"].slice(1, -2).sort((a: any, b: any) => (key(a) < key(b) ? -1 : 1))).to.deep.equal([
+        { "cp:keywords": ["test docx"] },
+        { "cp:lastModifiedBy": ["the author"] },
+        { "cp:revision": ["123"] },
+        { "dc:creator": ["me"] },
+        { "dc:description": ["testing document"] },
+        { "dc:subject": ["test subject"] },
+        { "dc:title": ["test document"] },
+    ]);
+}

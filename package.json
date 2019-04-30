@@ -1,5 +1,5 @@
 {
-  "name": "docx",
+  "name": "@gbozee/docx",
   "version": "5.0.0-rc1",
   "description": "Generate .docx documents with JavaScript (formerly Office-Clippy)",
   "main": "build/index.js",

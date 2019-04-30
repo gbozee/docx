@@ -35,7 +35,9 @@ export class File {
     private readonly headers: IDocumentHeader[] = [];
     private readonly footers: IDocumentFooter[] = [];
     private readonly docRelationships: Relationships;
-    private readonly coreProperties: CoreProperties;
+    // private readonly coreProperties: CoreProperties;
+    // tslint:disable-next-line: readonly-keyword
+    private coreProperties: CoreProperties;
     private readonly numbering: Numbering;
     private readonly media: Media;
     private readonly fileRelationships: Relationships;
@@ -405,6 +407,10 @@ export class File {
 
     public get CoreProperties(): CoreProperties {
         return this.coreProperties;
+    }
+
+    public set CoreProperties(v: CoreProperties) {
+        this.coreProperties = v;
     }
 
     public get Numbering(): Numbering {
