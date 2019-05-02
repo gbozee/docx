@@ -25,6 +25,7 @@ interface IXmlifyedFileMapping {
     readonly AppProperties: IXmlifyedFile;
     readonly FootNotes: IXmlifyedFile;
     readonly Settings: IXmlifyedFile;
+    readonly Fonts: IXmlifyedFile;
 }
 
 export class Compiler {
@@ -99,6 +100,10 @@ export class Compiler {
             Styles: {
                 data: xml(this.formatter.format(file.Styles)),
                 path: "word/styles.xml",
+            },
+            Fonts: {
+                data: xml(this.formatter.format(file.Fonts)),
+                path: "word/fontTable.xml",
             },
             Properties: {
                 data: xml(this.formatter.format(file.CoreProperties), {

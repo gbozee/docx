@@ -1,8 +1,12 @@
 import { DocumentAttributes } from "../document/document-attributes";
+import { Fonts } from "./fonts";
+
+// tslint:disable-ordered-imports:no-any
 import { Color, Italics, Size } from "../paragraph/run/formatting";
 import { Styles } from "./";
 
 import {
+    Font,
     FootnoteReferenceStyle,
     FootnoteText,
     FootnoteTextChar,
@@ -17,6 +21,22 @@ import {
     TitleStyle,
 } from "./style";
 
+export class DefaultFontFactory {
+    public newInstance(): Fonts {
+        const documentAttributes = new DocumentAttributes({
+            mc: "http://schemas.openxmlformats.org/markup-compatibility/2006",
+            r: "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+            w: "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+            w14: "http://schemas.microsoft.com/office/word/2010/wordml",
+            w15: "http://schemas.microsoft.com/office/word/2012/wordml",
+            Ignorable: "w14 w15",
+        });
+        const fonts = new Fonts(documentAttributes);
+        fonts.createDocumentDefaults();
+        fonts.push(new Font("Times New Roman"));
+        return fonts;
+    }
+}
 export class DefaultStylesFactory {
     public newInstance(): Styles {
         const documentAttributes = new DocumentAttributes({

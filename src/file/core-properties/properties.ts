@@ -3,6 +3,7 @@ import { DocumentAttributes } from "../document/document-attributes";
 import { Created, Creator, Description, Keywords, LastModifiedBy, Modified, Revision, Subject, Title } from "./components";
 
 export interface IPropertiesOptions {
+    readonly externalFonts?: string;
     readonly title?: string;
     readonly subject?: string;
     readonly creator?: string;

@@ -21,9 +21,10 @@ import { Bookmark, Hyperlink, Paragraph } from "./paragraph";
 import { Relationships } from "./relationships";
 import { TargetModeType } from "./relationships/relationship/relationship";
 import { Settings } from "./settings";
-import { Styles } from "./styles";
+import { Fonts, Styles } from "./styles";
+import { ExternalFontFactory } from "./styles/external-font-factory";
 import { ExternalStylesFactory } from "./styles/external-styles-factory";
-import { DefaultStylesFactory } from "./styles/factory";
+import { DefaultFontFactory, DefaultStylesFactory } from "./styles/factory";
 import { ITableOptions, Table } from "./table";
 import { TableOfContents } from "./table-of-contents";
 
@@ -47,6 +48,8 @@ export class File {
     private readonly appProperties: AppProperties;
     // tslint:disable-next-line:readonly-keyword
     private styles: Styles;
+    // tslint:disable-next-line:readonly-keyword
+    private fonts: Fonts;
 
     constructor(
         options: IPropertiesOptions = {
@@ -84,6 +87,13 @@ export class File {
         } else {
             const stylesFactory = new DefaultStylesFactory();
             this.styles = stylesFactory.newInstance();
+        }
+        if (options.externalFonts) {
+            const fontFactory = new ExternalFontFactory();
+            this.fonts = fontFactory.newInstance(options.externalFonts);
+        } else {
+            const fontFactory = new DefaultFontFactory();
+            this.fonts = fontFactory.newInstance();
         }
 
         this.addDefaultRelationships();
@@ -331,6 +341,11 @@ export class File {
             "http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings",
             "settings.xml",
         );
+        this.docRelationships.createRelationship(
+            this.currentRelationshipId++,
+            "http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable",
+            "fontTable.xml",
+        );
     }
 
     private groupHeaders(headers: IDocumentHeader[], group: IHeaderFooterGroup<HeaderWrapper> = {}): IHeaderFooterGroup<HeaderWrapper> {
@@ -403,6 +418,12 @@ export class File {
 
     public set Styles(styles: Styles) {
         this.styles = styles;
+    }
+    public get Fonts(): Fonts {
+        return this.fonts;
+    }
+    public set Fonts(fonts: Fonts) {
+        this.fonts = fonts;
     }
 
     public get CoreProperties(): CoreProperties {

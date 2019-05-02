@@ -3,15 +3,15 @@ import { DocumentDefaults } from "./defaults";
 import { CharacterStyle, ParagraphStyle } from "./style";
 export * from "./border";
 
-export class Styles extends XmlComponent {
-    constructor(initialStyles?: BaseXmlComponent) {
-        super("w:styles");
-        if (initialStyles) {
-            this.root.push(initialStyles);
+export class Fonts extends XmlComponent {
+    constructor(initialFonts?: BaseXmlComponent) {
+        super("w:fonts");
+        if (initialFonts) {
+            this.root.push(initialFonts);
         }
     }
 
-    public push(style: XmlComponent): Styles {
+    public push(style: XmlComponent): Fonts {
         this.root.push(style);
         return this;
     }
