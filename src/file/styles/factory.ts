@@ -32,7 +32,6 @@ export class DefaultFontFactory {
             Ignorable: "w14 w15",
         });
         const fonts = new Fonts(documentAttributes);
-        fonts.createDocumentDefaults();
         fonts.push(new Font("Times New Roman"));
         return fonts;
     }

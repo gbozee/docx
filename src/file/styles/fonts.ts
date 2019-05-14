@@ -2,7 +2,7 @@ import { BaseXmlComponent, XmlComponent } from "file/xml-components";
 import { DocumentDefaults } from "./defaults";
 import { CharacterStyle, ParagraphStyle } from "./style";
 export * from "./border";
-
+export * from "./style/font";
 export class Fonts extends XmlComponent {
     constructor(initialFonts?: BaseXmlComponent) {
         super("w:fonts");
@@ -34,5 +34,3 @@ export class Fonts extends XmlComponent {
         return characterStyle;
     }
 }
-
-export { CharacterStyle, ParagraphStyle } from "./style";

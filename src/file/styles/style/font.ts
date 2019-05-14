@@ -22,7 +22,8 @@ class FontFaceAttributes extends XmlAttributeComponent<IFontFaceAttributes> {
 }
 
 export class Font extends XmlComponent {
-    private readonly name: string;
+    // tslint:disable-next-line:readonly-keyword
+    protected name: string = "";
     constructor(name: string) {
         super("w:font");
         this.name = name;
@@ -31,6 +32,12 @@ export class Font extends XmlComponent {
 
     public push(styleSegment: XmlComponent): void {
         this.root.push(styleSegment);
+    }
+    public get Name(): string {
+        return this.name;
+    }
+    public set Name(name: string) {
+        this.name = name;
     }
 }
 
